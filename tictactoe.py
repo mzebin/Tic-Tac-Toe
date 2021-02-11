@@ -2,32 +2,55 @@
 import copy
 import os
 import platform
-import random
 import time
+
+import numpy as np
+from numpy import random
 
 
 # The Single Player Class
 # It handles Single Player Game.
 class SinglePlayer:
-    pass
+
+    # Constructor
+    def __init__(self):
+        pass
+
+    def run(self):
+        pass
 
 
 class Easy(SinglePlayer):
-    pass
+
+    # Constructor
+    def __init__(self):
+        super().__init__()
 
 
 class Medium(SinglePlayer):
-    pass
+
+    # Constructor
+    def __init__(self):
+        super().__init__()
 
 
 class Impossible(SinglePlayer):
-    pass
+
+    # Constructor
+    def __init__(self):
+        super().__init__()
 
 
 # The Multiplayer Class
 # It handles multiplayer game.
 class MultiPlayer:
-    pass
+
+    # Constructor
+    def __init__(self):
+        pass
+
+    def run(self):
+        pass
 
 
 # The Board Class
@@ -37,62 +60,7 @@ class Board:
 
     # Constructor
     def __init__(self):
-        self.size = 3
-        self.filler = "_"
-        self.board = self.make_board()
-
-    # Checking if a cell is Free
-    def is_free(self, row, col):
         pass
-
-    # Checking if the game is Tie.
-    def is_tie(self):
-        pass
-
-    # Checking for winner.
-    def is_winner(self, mark):
-        pass
-
-    # Making Board
-    def make_board(self):
-        board = []
-        for _ in range(self.size):
-            board.append([self.filler for _ in range(self.size)])
-
-        return board
-
-    # Making Move
-    def make_move(self, row, col, mark):
-        self.board[row][col] = mark
-
-    # Undoing Move
-    def undo_move(self, row, col):
-        self.board[row][col] = self.filler
-
-    # Returns a copy of the board.
-    def copy(self):
-        board = Board()
-        board.board = copy.deepcopy(self.board)
-        return board
-
-    # Returning Available Moves
-    def get_available_moves(self):
-        available_moves = []
-        for row, element1 in enumerate(self.board):
-            for col, element2 in enumerate(element1):
-                if element2 == self.filler:
-                    available_moves.append((row, col))
-
-        return available_moves
-
-    # Printing the Board
-    def print_board(self):
-        for row in self.board:
-            print("*-----" * self.size + "+")
-            for cell in row:
-                print(f"|  {cell}  ", end="")
-            print("|")
-        print("+-----" * self.size + "+")
 
 
 # Clear Screen
@@ -117,7 +85,7 @@ def clear_screen():
 def get_num_players():
     try:
         # Getting number of players
-        num_players = int(input("Singleplayer or Multiplayer (1 or 2) > "))
+        num_players = int(input("Single Player or Multiplayer (1 or 2) > "))
 
         # if number of players is valid
         # then return it else raise ValueError.
