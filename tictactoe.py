@@ -67,8 +67,17 @@ class Board:
     # Making Board
     def make_board(self):
         board = np.zeros((self.size, self.size), dtype=int)
-        board = np.where(board==0, self.filler, board)
+        board = np.where(board == 0, self.filler, board)
         return board
+
+    # Printing Board.
+    def print_board(self):
+        for row in self.board:
+            print("+-----" * self.size + "+")
+            for cell in row:
+                print(f"|  {cell}  ", end="")
+            print("|")
+        print("+-----" * self.size + "+")
 
 
 # Clear Screen
@@ -180,4 +189,5 @@ def main():
 
 # Starting the game.
 if __name__ == "__main__":
-    main()
+    Board().print_board()
+    # main()
