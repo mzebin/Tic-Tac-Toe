@@ -6,7 +6,7 @@ import random
 import time
 
 
-# The Singleplayer Class
+# The Single Player Class
 # It handles Single Player Game.
 class SinglePlayer:
     pass
@@ -34,7 +34,53 @@ class MultiPlayer:
 # THis class has all methods
 # associated with the board
 class Board:
-    pass
+
+    # Constructor
+    def __init__(self):
+        self.size = 3
+        self.filler = "_"
+        self.board = self.make_board()
+
+    # Making Board
+    def make_board(self):
+        board = []
+        for _ in range(self.size):
+            board.append([self.filler for _ in range(self.size)])
+
+        return board
+
+    # Making Move
+    def make_move(self, row, col, mark):
+        self.board[row][col] = mark
+
+    # Undoing Move
+    def undo_move(self, row, col):
+        self.board[row][col] = self.filler
+
+    # Returns a copy of the board.
+    def copy(self):
+        board = Board()
+        board.board = copy.deepcopy(self.board)
+        return board
+
+    # Returning Available Moves
+    def get_available_moves(self):
+        available_moves = []
+        for row, element1 in enumerate(self.board):
+            for col, element2 in enumerate(element1):
+                if element2 == self.filler:
+                    available_moves.append((row, col))
+
+        return available_moves
+
+    # Printing the Board
+    def print_board(self):
+        for row in self.board:
+            print("*-----" * self.size + "+")
+            for cell in row:
+                print(f"|  {cell}  ", end="")
+            print("|")
+        print("+-----" * self.size + "+")
 
 
 # Clear Screen
@@ -100,10 +146,10 @@ def choose_difficulty_level():
 def ask_exit():
     # Asking if user wants to exit.
     print()
-    exit = input("type 'x' to exit > ")
+    response = input("type 'x' to exit > ")
 
     # if user wants to exit then exit else continue.
-    if exit.lower() == "x":
+    if response.lower() == "x":
         quit()
     else:
         print("You typed wrong...")
