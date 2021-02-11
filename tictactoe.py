@@ -60,7 +60,15 @@ class Board:
 
     # Constructor
     def __init__(self):
-        pass
+        self.size = 3
+        self.filler = "_"
+        self.board = self.make_board()
+
+    # Making Board
+    def make_board(self):
+        board = np.zeros((self.size, self.size), dtype=int)
+        board = np.where(board==0, self.filler, board)
+        return board
 
 
 # Clear Screen
