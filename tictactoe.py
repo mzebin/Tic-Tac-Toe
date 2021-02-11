@@ -41,6 +41,18 @@ class Board:
         self.filler = "_"
         self.board = self.make_board()
 
+    # Checking if a cell is Free
+    def is_free(self, row, col):
+        pass
+
+    # Checking if the game is Tie.
+    def is_tie(self):
+        pass
+
+    # Checking for winner.
+    def is_winner(self, mark):
+        pass
+
     # Making Board
     def make_board(self):
         board = []
