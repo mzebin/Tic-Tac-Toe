@@ -64,10 +64,26 @@ class Board:
         self.filler = "_"
         self.board = self.make_board()
 
+    # Returns the available moves
+    def get_available_moves(self):
+        available_moves = []
+        for row, rows in self.board:
+            for col, cell in enumerate(rows):
+                if cell == self.filler:
+                    available_moves.append((row, col))
+
+        return available_moves
+
     # Making Board
     def make_board(self):
         board = np.zeros((self.size, self.size), dtype=int)
         board = np.where(board == 0, self.filler, board)
+        return board
+
+    # Returns a copy of the board.
+    def copy(self):
+        board = Board()
+        board.board = copy.deepcopy(self.board)
         return board
 
     # Printing Board.
