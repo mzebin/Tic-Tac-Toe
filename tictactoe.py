@@ -64,6 +64,14 @@ class Board:
         self.filler = "_"
         self.board = self.make_board()
 
+    # Checking Tie
+    def is_tie(self):
+        return len(self.get_available_moves()) == 0
+
+    # Checking if a space is free.
+    def is_free(self, row, col):
+        return self.board[row, col] == self.filler
+
     # Making Move
     def make_move(self, row, col, mark):
         self.board[row, col] = mark
