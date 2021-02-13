@@ -64,6 +64,14 @@ class Board:
         self.filler = "_"
         self.board = self.make_board()
 
+    # Making Move
+    def make_move(self, row, col, mark):
+        self.board[row, col] = mark
+
+    # Undoing Move
+    def undo_move(self):
+        self.board[row, col] = self.filler
+
     # Returns the available moves
     def get_available_moves(self):
         available_moves = []
