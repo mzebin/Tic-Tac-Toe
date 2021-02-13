@@ -64,7 +64,56 @@ class Board:
         self.filler = "_"
         self.board = self.make_board()
 
-    # Checking Tie
+    # Checking for Win
+    def is_winner(self, mark):
+        # Checking Horizontally for win
+        for row in self.board:
+            idx = 0
+            while idx < self.size:
+                if row[idx] != mark:
+                    break
+
+                idx += 1
+
+            if len(idx) == self.size:
+                return True
+
+        # Checking Vertically for win
+        for row in range(self.size):
+            col = 0
+            while col < self.size:
+                if self.board[row][col] != mark:
+                    break
+
+                col += 1
+
+            if col == self.size:
+                return True
+
+        # Checking Diagonally for win
+        idx = 0
+        while idx < self.size:
+            if self.board[idx][idx] != mark:
+                break
+
+            idx += 1
+
+        if idx == self.size:
+            return True
+
+        row = 0
+        col = self.size - 1
+        while row < self.size:
+            if self.board[row][col] != mark:
+                break
+
+            row += 1
+            col -= 1
+
+        if row == self.size:
+            return True
+
+    # Checking for Tie
     def is_tie(self):
         return len(self.get_available_moves()) == 0
 
