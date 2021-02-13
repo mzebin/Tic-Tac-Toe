@@ -14,7 +14,11 @@ class SinglePlayer:
 
     # Constructor
     def __init__(self):
-        pass
+        self.board = Board()
+        self.player = "X"
+        self.opponent = "O"
+        self.game_over = False
+        self.turn = random.choice([0, 1])
 
     def run(self):
         pass
@@ -54,7 +58,7 @@ class MultiPlayer:
 
 
 # The Board Class
-# THis class has all methods
+# This class has all methods
 # associated with the board
 class Board:
 
