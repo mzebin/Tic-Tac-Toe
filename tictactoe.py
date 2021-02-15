@@ -20,6 +20,11 @@ class SinglePlayer:
         self.game_over = False
         self.turn = random.choice([0, 1])
 
+    # Getting Player Move
+    def get_player_move(self):
+        pass
+
+    # MainLoop
     def run(self):
         pass
 
@@ -70,52 +75,41 @@ class Board:
 
     # Checking for Win
     def is_winner(self, mark):
-        # Checking Horizontally for win
-        for row in self.board:
-            idx = 0
-            while idx < self.size:
-                if row[idx] != mark:
-                    break
-
-                idx += 1
-
-            if len(idx) == self.size:
-                return True
-
         # Checking Vertically for win
-        for row in range(self.size):
-            col = 0
-            while col < self.size:
-                if self.board[row][col] != mark:
+        for col in range(self.size):
+            for row in range(self.size):
+                if self.board[row, col] != mark:
                     break
 
-                col += 1
+                if row == self.size - 1:
+                    return True
 
-            if col == self.size:
+        # Checking Horizontally for win
+        for row in range(self.size):
+            for col in range(self.size):
+                if self.board[row, col] != mark:
+                    break
+
+                if col == self.size - 1:
+                    return True
+
+        # Checking Diagonals for win
+        for idx in range(self.size):
+            if self.board[idx, idx] != mark:
+                break
+
+            if idx == self.size - 1:
                 return True
 
-        # Checking Diagonally for win
-        idx = 0
-        while idx < self.size:
-            if self.board[idx][idx] != mark:
-                break
-
-            idx += 1
-
-        if idx == self.size:
-            return True
-
-        row = 0
-        col = self.size - 1
-        while row < self.size:
-            if self.board[row][col] != mark:
-                break
-
-            row += 1
+        # Checking Diagonals for win
+        col = self.size
+        for row in range(self.size):
             col -= 1
+            if self.board[row, col] != mark:
+                break
 
-        if row == self.size:
-            return True
+            if row == self.size - 1:
+                return True
 
     # Checking for Tie
     def is_tie(self):
@@ -274,5 +268,13 @@ def main():
 
 # Starting the game.
 if __name__ == "__main__":
-    Board().print_board()
+    board = Board()
+    board.print_board()
+    board.make_move(0, 2, "x")
+    board.make_move(1, 1, "x")
+    board.make_move(2, 0, "x")
+    if board.is_winner("x"):
+        board.print_board()
+        print("X won...")
+
     # main()
