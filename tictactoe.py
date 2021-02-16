@@ -112,6 +112,10 @@ class Easy(SinglePlayer):
     def __init__(self):
         super().__init__()
 
+    # Getting the best move
+    def get_best_move(self):
+        pass
+
 
 class Medium(SinglePlayer):
 
@@ -119,12 +123,20 @@ class Medium(SinglePlayer):
     def __init__(self):
         super().__init__()
 
+    # Getting the best move
+    def get_best_move(self):
+        pass
+
 
 class Impossible(SinglePlayer):
 
     # Constructor
     def __init__(self):
         super().__init__()
+
+    # Getting the best move
+    def get_best_move(self):
+        pass
 
 
 # The Multiplayer Class
