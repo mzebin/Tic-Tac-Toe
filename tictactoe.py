@@ -1,11 +1,11 @@
 # Importing Required Libraries
 import os
 import platform
+import random
 import time
 from copy import deepcopy
 
 import numpy as np
-from numpy import random
 
 
 # The Single Player Class
@@ -15,8 +15,8 @@ class SinglePlayer:
     # Constructor
     def __init__(self):
         self.board = Board()
-        self.computer_mark = None
-        self.player_mark = None
+        self.computer_mark = "X" 
+        self.player_mark = "O"
         self.game_over = False
         self.turn = 0
 
@@ -78,16 +78,16 @@ class SinglePlayer:
                     print("The Game is a tie...")
                     self.game_over = True
                 else:
-                    self.turn = 1
+                    self.turn += 1
             else:
                 # Getting and Making Move
-                move = get_player_move()
-                self.board.make_move(*move, self.computer_mark)
+                move = self.get_player_move()
+                self.board.make_move(*move, self.player_mark)
 
                 # Checking for win and tie
                 # if both are false then
                 # change turn
-                if self.board.is_winner(self.computer_mark):
+                if self.board.is_winner(self.player_mark):
                     # Clearing Screen
                     clear_screen()
                     # Printing Board
@@ -103,7 +103,7 @@ class SinglePlayer:
                     print("The Game is a tie...")
                     self.game_over = True
                 else:
-                    turn = 0
+                    self.turn -= 1
 
 
 class Easy(SinglePlayer):
@@ -345,15 +345,4 @@ def main():
 
 # Starting the game.
 if __name__ == "__main__":
-    board = Board()
-    print(board.get_available_moves())
-    board.print_board()
-    board.make_move(0, 0, "x")
-    board.make_move(1, 1, "x")
-    board.make_move(2, 2, "x")
-    print(board.get_available_moves())
-    if board.is_winner("x"):
-        board.print_board()
-        print("X won...")
-
-    # main()
+    main()
