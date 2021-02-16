@@ -22,7 +22,27 @@ class SinglePlayer:
 
     # Getting Player Move
     def get_player_move(self):
-        pass
+        try:
+            # Clearing Screen
+            clear_screen()
+            # Printing Board
+            self.board.print_board()
+            # Printing Available Moves
+            print()
+            print(f"Available Moves are: {self.board.get_available_moves()}")
+            # Getting input from the user
+            row = int(input("Enter the row number > "))
+            col = int(input("Enter the column number > "))
+
+            if self.board.is_free(row, col):
+                return (row, col)
+            else:
+                print("Invalid Move")
+                raise ValueError
+        except ValueError:
+            # Asking if user wants to exit
+            ask_exit()
+            return self.get_player_move()
 
     # MainLoop
     def run(self):
