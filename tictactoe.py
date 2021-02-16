@@ -1,8 +1,8 @@
 # Importing Required Libraries
-import copy
 import os
 import platform
 import time
+from copy import deepcopy
 
 import numpy as np
 from numpy import random
@@ -213,7 +213,7 @@ class Board:
     # Returns a copy of the board.
     def copy(self):
         board = Board()
-        board.board = copy.deepcopy(self.board)
+        board.board = deepcopy(self.board)
         return board
 
     # Printing Board.
