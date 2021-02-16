@@ -15,10 +15,10 @@ class SinglePlayer:
     # Constructor
     def __init__(self):
         self.board = Board()
-        self.player = "X"
-        self.opponent = "O"
+        self.computer_mark = None
+        self.player_mark = None
         self.game_over = False
-        self.turn = random.choice([0, 1])
+        self.turn = 0
 
     # Getting Player Move
     def get_player_move(self):
@@ -46,7 +46,64 @@ class SinglePlayer:
 
     # MainLoop
     def run(self):
-        pass
+        # Clearing Screen
+        clear_screen()
+        # Printing Board
+        self.board.print_board()
+        # Print who goes first
+        print("The computer goes first.")
+
+        while not self.game_over:
+            if self.turn == 0:
+                # Getting and Making Move
+                move = self.get_best_move()
+                self.board.make_move(*move, self.computer_mark)
+
+                # Checking for win and tie
+                # if both are false then
+                # change turn
+                if self.board.is_winner(self.computer_mark):
+                    # Clearing Screen
+                    clear_screen()
+                    # Printing Board
+                    self.board.print_board()
+                    # Printing Who Won
+                    print("X Won...")
+                    self.game_over = True
+                elif self.board.is_tie():
+                    # Clearing Screen
+                    clear_screen()
+                    # Printing Board
+                    self.board.print_board()
+                    print("The Game is a tie...")
+                    self.game_over = True
+                else:
+                    self.turn = 1
+            else:
+                # Getting and Making Move
+                move = get_player_move()
+                self.board.make_move(*move, self.computer_mark)
+
+                # Checking for win and tie
+                # if both are false then
+                # change turn
+                if self.board.is_winner(self.computer_mark):
+                    # Clearing Screen
+                    clear_screen()
+                    # Printing Board
+                    self.board.print_board()
+                    # Printing Who Won
+                    print("O Won...")
+                    self.game_over = True
+                elif self.board.is_tie():
+                    # Clearing Screen
+                    clear_screen()
+                    # Printing Board
+                    self.board.print_board()
+                    print("The Game is a tie...")
+                    self.game_over = True
+                else:
+                    turn = 0
 
 
 class Easy(SinglePlayer):
