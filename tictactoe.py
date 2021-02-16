@@ -80,8 +80,7 @@ class Board:
             for row in range(self.size):
                 if self.board[row, col] != mark:
                     break
-
-                if row == self.size - 1:
+                elif row == self.size - 1:
                     return True
 
         # Checking Horizontally for win
@@ -89,16 +88,14 @@ class Board:
             for col in range(self.size):
                 if self.board[row, col] != mark:
                     break
-
-                if col == self.size - 1:
+                elif col == self.size - 1:
                     return True
 
         # Checking Diagonals for win
         for idx in range(self.size):
             if self.board[idx, idx] != mark:
                 break
-
-            if idx == self.size - 1:
+            elif idx == self.size - 1:
                 return True
 
         # Checking Diagonals for win
@@ -107,8 +104,7 @@ class Board:
             col -= 1
             if self.board[row, col] != mark:
                 break
-
-            if row == self.size - 1:
+            elif row == self.size - 1:
                 return True
 
     # Checking for Tie
@@ -129,19 +125,13 @@ class Board:
 
     # Returns the available moves
     def get_available_moves(self):
-        available_moves = []
-        for row, rows in self.board:
-            for col, cell in enumerate(rows):
-                if cell == self.filler:
-                    available_moves.append((row, col))
+        return [value for value in zip(*np.where(self.board == self.filler))]
 
-        return available_moves
 
     # Making Board
     def make_board(self):
         board = np.zeros((self.size, self.size), dtype=int)
-        board = np.where(board == 0, self.filler, board)
-        return board
+        return np.where(board == 0, self.filler, board)
 
     # Returns a copy of the board.
     def copy(self):
@@ -165,10 +155,8 @@ class Board:
 def clear_screen():
     # Checking platform and
     # Clearing Screen
-    if platform.system() == "Windows":
-        os.system("cls")
-    else:
-        os.system("clear")
+    command = "cls" if platform.system() == "Windows" else "clear"
+    os.system(command)
 
     # Printing Title
     print("Tic Tac Toe")
@@ -269,10 +257,12 @@ def main():
 # Starting the game.
 if __name__ == "__main__":
     board = Board()
+    print(board.get_available_moves())
     board.print_board()
-    board.make_move(0, 2, "x")
+    board.make_move(0, 0, "x")
     board.make_move(1, 1, "x")
-    board.make_move(2, 0, "x")
+    board.make_move(2, 2, "x")
+    print(board.get_available_moves())
     if board.is_winner("x"):
         board.print_board()
         print("X won...")
