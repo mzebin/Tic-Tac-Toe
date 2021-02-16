@@ -114,7 +114,7 @@ class Easy(SinglePlayer):
 
     # Getting the best move
     def get_best_move(self):
-        pass
+        return random.choice(self.board.get_available_moves())
 
 
 class Medium(SinglePlayer):
