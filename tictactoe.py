@@ -123,9 +123,42 @@ class Medium(SinglePlayer):
     def __init__(self):
         super().__init__()
 
+    def get_corner_moves(self):
+        available_moves = self.board.get_available_moves()
+        corner_moves = [
+            (0, 0),
+            (0, self.board.size - 1),
+            (self.board.size - 1, 0),
+            (self.board.size - 1, self.board.size - 1),
+        ]
+
+        for move in corner_moves:
+            if move in available_moves:
+                yield move
+
     # Getting the best move
     def get_best_move(self):
-        pass
+        for move in self.board.get_available_moves():
+            board_copy = self.board.copy()
+            board_copy.make_move(move[0], move[1], self.computer_mark)
+            if board_copy.is_winner(self.computer_mark):
+                return move
+
+        for move in self.board.get_available_moves():
+            board_copy = self.board.copy()
+            board_copy.make_move(move[0], move[1], self.player_mark)
+            if board_copy.is_winner(self.player_mark):
+                return move
+
+        corner_moves = self.get_corner_moves()
+        if corner_moves is not None:
+            return random.choice(list(corner_moves))
+        else:
+            center = self.get_center_position()
+            if center:
+                return center
+            else:
+                return random.choice(self.board.get_available_moves())
 
 
 class Impossible(SinglePlayer):
@@ -347,3 +380,4 @@ def main():
 # Starting the game.
 if __name__ == "__main__":
     main()
+
