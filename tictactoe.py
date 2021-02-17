@@ -124,7 +124,9 @@ class Medium(SinglePlayer):
         super().__init__()
 
     def get_corner_moves(self):
+        # Getting the available moves
         available_moves = self.board.get_available_moves()
+        # Corner Positions
         corner_moves = [
             (0, 0),
             (0, self.board.size - 1),
@@ -132,29 +134,55 @@ class Medium(SinglePlayer):
             (self.board.size - 1, self.board.size - 1),
         ]
 
+        # Checking if corners are free
+        # and returning them
         for move in corner_moves:
             if move in available_moves:
                 yield move
 
+    def get_corner_move(self):
+        # Checking if the board size is even
+        if self.board.size % 2 == 1:
+            return False
+        
+        # checking if the center is free then
+        # return a tuple of center.
+        center = (self.board.size - 1) / 2
+        if self.board.is_free(center, center):
+            return (center, center)
+
     # Getting the best move
     def get_best_move(self):
+        # Checking if computer can win in one move
         for move in self.board.get_available_moves():
+            # Getting the Board Copy
             board_copy = self.board.copy()
+            # Making Move
             board_copy.make_move(move[0], move[1], self.computer_mark)
+            # Checking if computer won
             if board_copy.is_winner(self.computer_mark):
                 return move
 
+        # Checking if player can win in one move
         for move in self.board.get_available_moves():
+            # Getting board copy
             board_copy = self.board.copy()
+            # Making move
             board_copy.make_move(move[0], move[1], self.player_mark)
+            # Checking if player won
             if board_copy.is_winner(self.player_mark):
                 return move
 
+        # Getting corner moves
         corner_moves = self.get_corner_moves()
+        # If move is not None then return move
         if corner_moves is not None:
             return random.choice(list(corner_moves))
         else:
+            # Getting the board's center
             center = self.get_center_position()
+            # if center is not false return center
+            # else return random available move
             if center:
                 return center
             else:
