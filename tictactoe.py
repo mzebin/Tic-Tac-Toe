@@ -303,6 +303,7 @@ def ask_exit():
 
     # if user wants to exit then exit else continue.
     if response.lower() == "x":
+        print("Exiting Program...")
         quit()
     else:
         print("You typed wrong...")
