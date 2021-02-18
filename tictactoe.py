@@ -195,6 +195,15 @@ class Impossible(SinglePlayer):
     def __init__(self):
         super().__init__()
 
+    def is_moves_left(self):
+        pass
+
+    def evaluate(self):
+        pass
+
+    def minimax(self):
+        pass
+
     # Getting the best move
     def get_best_move(self):
         pass
