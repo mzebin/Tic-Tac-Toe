@@ -195,9 +195,6 @@ class Impossible(SinglePlayer):
     def __init__(self):
         super().__init__()
 
-    def is_moves_left(self):
-        pass
-
     def evaluate(self):
         pass
 
@@ -269,6 +266,13 @@ class Board:
     # Checking for Tie
     def is_tie(self):
         return len(self.get_available_moves()) == 0
+
+    # Returns True or False
+    def is_moves_left(self):
+        if len(self.get_available_moves) == 0:
+            return True
+        else:
+            return False
 
     # Checking if a space is free.
     def is_free(self, row, col):
