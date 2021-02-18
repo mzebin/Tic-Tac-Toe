@@ -57,6 +57,7 @@ class SinglePlayer:
             if self.turn == 0:
                 # Getting and Making Move
                 move = self.get_best_move()
+                print(move)
                 self.board.make_move(*move, self.computer_mark)
 
                 # Checking for win and tie
@@ -204,16 +205,59 @@ class Impossible(SinglePlayer):
             return 10
         elif self.board.is_winner(self.player_mark):
             return -10
-        else:
+        elif self.board.is_tie():
             return 0
 
-    def minimax(self):
-        pass
+    def minimax(self, depth, is_max):
+        # Evaluating the Score
+        score = self.evaluate()
+
+        # Returning the score when the game is over.
+        if score == 10 or score == -10 or score == 0:
+            return score
+
+        if is_max:
+            best = float("-inf")
+
+            # Looping through all the available moves
+            for move in self.board.get_available_moves():
+                self.board.make_move(move[0], move[1], self.computer_mark)
+                best = max(best, self.minimax(depth + 1, not is_max))
+                self.board.undo_move(move[0], move[1])
+        else:
+            best = float("inf")
+
+            # Looping through all the available moves.
+            for move in self.board.get_available_moves():
+                self.board.make_move(move[0], move[1], self.player_mark)
+                best = min(best, self.minimax(depth + 1, not is_max))
+                self.board.undo_move(move[0], move[1])
+
+        return best
 
     # Getting the best move
     def get_best_move(self):
-        pass
+        best_val = float("-inf")
+        best_move = ()
 
+        # Finding the best move.
+        # Looping through all the available moves.
+        for move in self.board.get_available_moves():
+            # Checking if cell is free.
+            if self.board.is_free(move[0], move[1]):
+                # Making a move, calculating its value
+                # and Undoing the move.
+                self.board.make_move(move[0], move[1], self.computer_mark)
+                value = self.minimax(0, False)
+                self.board.undo_move(move[0], move[1])
+
+                # Changing the best value and best move
+                # if value is better than best_val.
+                if value > best_val:
+                    best_val = value
+                    best_move = (move[0], move[1])
+
+        return best_move
 
 # The Multiplayer Class
 # It handles multiplayer game.
@@ -276,13 +320,6 @@ class Board:
     def is_tie(self):
         return len(self.get_available_moves()) == 0
 
-    # Returns True or False
-    def is_moves_left(self):
-        if len(self.get_available_moves) == 0:
-            return True
-        else:
-            return False
-
     # Checking if a space is free.
     def is_free(self, row, col):
         return self.board[row, col] == self.filler
@@ -292,7 +329,7 @@ class Board:
         self.board[row, col] = mark
 
     # Undoing Move
-    def undo_move(self):
+    def undo_move(self, row, col):
         self.board[row, col] = self.filler
 
     # Returns the available moves
