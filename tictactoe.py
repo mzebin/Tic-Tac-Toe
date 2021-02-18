@@ -20,30 +20,6 @@ class SinglePlayer:
         self.game_over = False
         self.turn = 0
 
-    # Getting Player Move
-    def get_player_move(self):
-        try:
-            # Clearing Screen
-            clear_screen()
-            # Printing Board
-            self.board.print_board()
-            # Printing Available Moves
-            print()
-            print(f"Available Moves are: {self.board.get_available_moves()}")
-            # Getting input from the user
-            row = int(input("Enter the row number > "))
-            col = int(input("Enter the column number > "))
-
-            if self.board.is_free(row, col):
-                return (row, col)
-            else:
-                print("Invalid Move")
-                raise ValueError
-        except ValueError:
-            # Asking if user wants to exit
-            ask_exit()
-            return self.get_player_move()
-
     # MainLoop
     def run(self):
         # Clearing Screen
@@ -82,7 +58,7 @@ class SinglePlayer:
                     self.turn += 1
             else:
                 # Getting and Making Move
-                move = self.get_player_move()
+                move = self.board.get_player_move()
                 self.board.make_move(*move, self.player_mark)
 
                 # Checking for win and tie
@@ -331,6 +307,30 @@ class Board:
     # Undoing Move
     def undo_move(self, row, col):
         self.board[row, col] = self.filler
+
+    # Getting Player Move
+    def get_player_move(self):
+        try:
+            # Clearing Screen
+            clear_screen()
+            # Printing Board
+            self.print_board()
+            # Printing Available Moves
+            print()
+            print(f"Available Moves are: {self.get_available_moves()}")
+            # Getting input from the user
+            row = int(input("Enter the row number > "))
+            col = int(input("Enter the column number > "))
+
+            if self.is_free(row, col):
+                return (row, col)
+            else:
+                print("Invalid Move")
+                raise ValueError
+        except ValueError:
+            # Asking if user wants to exit
+            ask_exit()
+            return self.get_player_move()
 
     # Returns the available moves
     def get_available_moves(self):
