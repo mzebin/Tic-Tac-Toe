@@ -195,8 +195,17 @@ class Impossible(SinglePlayer):
     def __init__(self):
         super().__init__()
 
+    # Returns the score based the winner.
     def evaluate(self):
-        pass
+        # Returning 10 if computer wins
+        # Returning -10 if player wins
+        # Returning 0 if it is a tie.
+        if self.board.is_winner(self.computer_mark):
+            return 10
+        elif self.board.is_winner(self.player_mark):
+            return -10
+        else:
+            return 0
 
     def minimax(self):
         pass
