@@ -18,7 +18,7 @@ class SinglePlayer:
         self.computer_mark = "X" 
         self.player_mark = "O"
         self.game_over = False
-        self.turn = 0
+        self.turn = 1
 
     # MainLoop
     def run(self):
@@ -58,7 +58,7 @@ class SinglePlayer:
                     self.turn += 1
             else:
                 # Getting and Making Move
-                move = self.board.get_player_move()
+                move = self.board.get_player_move(self.player_mark)
                 self.board.make_move(*move, self.player_mark)
 
                 # Checking for win and tie
@@ -135,7 +135,7 @@ class Medium(SinglePlayer):
             # Getting the Board Copy
             board_copy = self.board.copy()
             # Making Move
-            board_copy.make_move(move[0], move[1], self.computer_mark)
+            board_copy.make_move(*move, self.computer_mark)
             # Checking if computer won
             if board_copy.is_winner(self.computer_mark):
                 return move
@@ -145,7 +145,7 @@ class Medium(SinglePlayer):
             # Getting board copy
             board_copy = self.board.copy()
             # Making move
-            board_copy.make_move(move[0], move[1], self.player_mark)
+            board_copy.make_move(*move, self.player_mark)
             # Checking if player won
             if board_copy.is_winner(self.player_mark):
                 return move
@@ -197,17 +197,17 @@ class Impossible(SinglePlayer):
 
             # Looping through all the available moves
             for move in self.board.get_available_moves():
-                self.board.make_move(move[0], move[1], self.computer_mark)
+                self.board.make_move(*move, self.computer_mark)
                 best = max(best, self.minimax(depth + 1, not is_max))
-                self.board.undo_move(move[0], move[1])
+                self.board.undo_move(*move)
         else:
             best = float("inf")
 
             # Looping through all the available moves.
             for move in self.board.get_available_moves():
-                self.board.make_move(move[0], move[1], self.player_mark)
+                self.board.make_move(*move, self.player_mark)
                 best = min(best, self.minimax(depth + 1, not is_max))
-                self.board.undo_move(move[0], move[1])
+                self.board.undo_move(*move)
 
         return best
 
@@ -220,18 +220,18 @@ class Impossible(SinglePlayer):
         # Looping through all the available moves.
         for move in self.board.get_available_moves():
             # Checking if cell is free.
-            if self.board.is_free(move[0], move[1]):
+            if self.board.is_free(*move):
                 # Making a move, calculating its value
                 # and Undoing the move.
-                self.board.make_move(move[0], move[1], self.computer_mark)
+                self.board.make_move(*move, self.computer_mark)
                 value = self.minimax(0, False)
-                self.board.undo_move(move[0], move[1])
+                self.board.undo_move(*move)
 
                 # Changing the best value and best move
                 # if value is better than best_val.
                 if value > best_val:
                     best_val = value
-                    best_move = (move[0], move[1])
+                    best_move = move
 
         return best_move
 
@@ -241,10 +241,30 @@ class MultiPlayer:
 
     # Constructor
     def __init__(self):
-        pass
+        self.board = Board()
+        self.marks = ["X", "O"]
+        self.game_over = False
+        self.turn = 0
 
     def run(self):
-        pass
+        while not self.game_over:
+            move = self.board.get_player_move(self.marks[self.turn])
+            self.board.make_move(*move, self.marks[self.turn])
+
+            # Checking for winner
+            if self.board.is_winner(self.marks[self.turn]):
+                clear_screen()
+                self.board.print_board()
+                print(self.marks[self.turn], "Won...")
+                self.game_over = True
+            # Checking for tie
+            if self.board.is_tie():
+                clear_screen()
+                self.board.print_board()
+                print("The Game is a tie...")
+                self.game_over = True
+            # Swaping turn
+            self.turn = 0 if self.turn == 1 else 1
 
 
 # The Board Class
@@ -265,23 +285,23 @@ class Board:
             for row in range(self.size):
                 if self.board[row, col] != mark:
                     break
-                elif row == self.size - 1:
-                    return True
+            else:
+                return True
 
         # Checking Horizontally for win
         for row in range(self.size):
             for col in range(self.size):
                 if self.board[row, col] != mark:
                     break
-                elif col == self.size - 1:
-                    return True
+            else:
+                return True
 
         # Checking Diagonals for win
         for idx in range(self.size):
             if self.board[idx, idx] != mark:
                 break
-            elif idx == self.size - 1:
-                return True
+        else:
+            return True
 
         # Checking Diagonals for win
         col = self.size
@@ -289,8 +309,8 @@ class Board:
             col -= 1
             if self.board[row, col] != mark:
                 break
-            elif row == self.size - 1:
-                return True
+        else:
+            return True
 
     # Checking for Tie
     def is_tie(self):
@@ -309,7 +329,7 @@ class Board:
         self.board[row, col] = self.filler
 
     # Getting Player Move
-    def get_player_move(self):
+    def get_player_move(self, mark):
         try:
             # Clearing Screen
             clear_screen()
@@ -318,6 +338,7 @@ class Board:
             # Printing Available Moves
             print()
             print(f"Available Moves are: {self.get_available_moves()}")
+            print(f"{mark}'s turn")
             # Getting input from the user
             row = int(input("Enter the row number > "))
             col = int(input("Enter the column number > "))
@@ -330,7 +351,7 @@ class Board:
         except ValueError:
             # Asking if user wants to exit
             ask_exit()
-            return self.get_player_move()
+            return self.get_player_move(mark)
 
     # Returns the available moves
     def get_available_moves(self):
