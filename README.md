@@ -24,7 +24,7 @@ The computer follows these steps while choosing the move:
   5. Move to a random side space.
 
 #### Impossible
- It uses the minimax algorithm to get the best move.
+ It uses the Minimax algorithm to get the best move.
  
  ## Modules
  - os
