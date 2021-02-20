@@ -18,7 +18,7 @@ class SinglePlayer:
         self.computer_mark = "X" 
         self.player_mark = "O"
         self.game_over = False
-        self.turn = 1
+        self.turn = 0
 
     # MainLoop
     def run(self):
