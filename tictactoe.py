@@ -355,7 +355,7 @@ class Board:
 
     # Returns the available moves
     def get_available_moves(self):
-        return [value for value in zip(*np.where(self.board == self.filler))]
+        return np.argwhere(self.board == self.filler).tolist()
 
 
     # Making Board
